@@ -17,12 +17,13 @@ def get_labels():
         for label in labels:
             print(label['name'])
 
-SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
-
+SCOPES = 'https://mail.google.com/'
 authInst = auth.auth(SCOPES)
-
 credentials = authInst.get_credentials()
-
 service = build('gmail', 'v1', http=credentials.authorize(Http()))
 
-get_labels()
+import send_email
+sendInst = send_email.send_email(service)
+message = sendInst.create_message_with_attachment('nwong1250@gmail.com', 'nwong1250@gmail.com', 'test gmail api', 'hi there!, test email', 'Capture.PNG')
+#message = sendInst.create_message('nwong1250@gmail.com', 'nwong1250@gmail.com', 'test gmail api', 'hi there!')
+sendInst.send_message('me', message)
